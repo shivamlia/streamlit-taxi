@@ -147,19 +147,24 @@ pickle.dump(lr,open(filename,'wb'))
 
 ## Evaluation
 
-Pada evaluasi ini, saya menggunakan metode accuracy, Accuracy merupakan sebuah metrik yang digunakan untuk mengukur sejauh mana model klasifikasi berhasil dalam memprediksi dataset. Metrik ini sangat umum digunakan dalam machine learning dan data science.
+Pada evaluasi ini, saya menggunakan metode r_square. R-squared (R^2), adalah salah satu metrik evaluasi yang umum digunakan dalam machine learning untuk mengukur sejauh mana model regresi cocok dengan data yang diobservasi. R-squared mengukur seberapa baik model memahami variasi dalam data target. Metrik ini sangat umum digunakan dalam machine learning dan data science.
 
 ```jupiter
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import r2_score
+data = pd.read_csv('2017_Yellow_Taxi_Trip_Data.csv')
 
-y_pred = lr.predict(X_test)
+features = ['passenger_count',	'trip_distance', 'PULocationID', 'PULocationID',	'DOLocationID',	'payment_type',	'fare_amount', 'mta_tax',	'tip_amount']
+x = df[features]
+y = df['total_amount']
 
-y_pred_binary = (y_pred).astype(int)
-y_test_binary = (y_test).astype(int)
+x_train, X_test, y_train, y_test = train_test_split(x,y,random_state=25)
 
-accuracy = accuracy_score(y_test_binary, y_pred_binary)
+lr.fit(x_train, y_train)
+predictions = lr.predict(X_test)
 
-print('skor akurasi:', accuracy)
+r_squared = r2_score(y_test, predictions)
+
+print("R-squared :", r_squared)
 ```
 
 ## Deployment
